@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Crop Price Prediction</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-size: cover;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 5px solid #ece9e9;
+            border-radius: 10px;
+            background-color: #b9b4b4;
+            color: #f6f6f6;
+        }
+
+        h1 {
+            text-align: center;
+            color: rgb(23, 120, 51);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .navbar {
+            background-color: #81B622;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        .navbar-brand img {
+            margin-right: 10px;
+        }
+
+        .nav-link {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-link:hover {
+            color: #0056b3;
+        }
+
+        .auth-buttons a {
+            color: white;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .auth-buttons a:hover {
+            text-decoration: underline;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'images/logo final.png' %}" alt="Agri Assist Logo" width="70" height="70">
+                <b>AGRI ASSIST</b>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'index' %}"><b>Home</b></a>
+                    </li>
+                </ul>
+
+                {% if user.is_authenticated %}
+                <div class="auth-buttons">
+                    <a href="{% url 'logout' %}" class="sign-out" style="text-decoration:none;">Sign Out</a>
+                </div>
+                <!-- User Avatar -->
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <img src="{% static 'images/avatar.jpg' %}" alt="Avatar" class="avatar" width="30" height="30">
+                        {{ user.username }}
+                    </button>
+                </div>
+                {% else %}
+                <div class="auth-buttons">
+                    <a href="{% url 'user_login' %}" class="sign-in" style="text-decoration:none;">Sign In</a>
+                    <a href="{% url 'register' %}" class="sign-up" style="text-decoration:none;">Sign Up</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container" style="margin-top: 100px;">
+        <h1>Enter Crop Details</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.state.label_tag }}
+                {{ form.state }}
+            </div>
+            <div class="form-group">
+                {{ form.crop.label_tag }}
+                {{ form.crop }}
+            </div>
+            <div class="form-group">
+                {{ form.cost_cultivation.label_tag }}
+                {{ form.cost_cultivation }}
+            </div>
+            <div class="form-group">
+                {{ form.cost_cultivation2.label_tag }}
+                {{ form.cost_cultivation2 }}
+            </div>
+            <div class="form-group">
+                {{ form.production.label_tag }}
+                {{ form.production }}
+            </div>
+            <div class="form-group">
+                {{ form.yield_.label_tag }}
+                {{ form.yield_ }}
+            </div>
+            <div class="form-group">
+                {{ form.temperature.label_tag }}
+                {{ form.temperature }}
+            </div>
+            <div class="form-group">
+                {{ form.rain_fall_annual.label_tag }}
+                {{ form.rain_fall_annual }}
+            </div>
+            <button type="submit">Predict Price</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

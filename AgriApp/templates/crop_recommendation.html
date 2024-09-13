@@ -1,0 +1,157 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+      body {
+        /* background-image: url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'); */
+        background-size: cover;
+        background-attachment: fixed;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .friend2field {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .friend2field label {
+        font-weight: bold;
+        flex: 1;
+      }
+
+      .friend2field input {
+        flex: 2;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-weight: bold;
+        border: none;
+        background-color: #80B622;
+        /* color: white; */
+        border-radius: 5px;
+        transition: background 0.3s ease;
+      }
+
+      .btn:hover {
+        background: #388E3C;
+      }
+
+      .navbar {
+        margin-bottom: 20px;
+      }
+
+      .alert {
+        max-width: 600px;
+        margin: 20px auto;
+        text-align: center;
+      }
+      .predicted-text{
+        color:white;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+      }
+    </style>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Crop Prediction</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="">Crop Recommendation</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only"></span></a>
+          </li>
+        
+        </ul>
+      </div>
+    </nav>
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Welcome to Crop Prediction!</strong> Predict the perfect crop to grow on your farm !!!
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <div class="container">
+      <form action="{% url 'analyze' %}" method='post'> {% csrf_token %}
+        <div class="friend2field">
+          <label for="nitrogen">Enter Nitrogen (N) value:</label>
+          <input name="nitrogen" type="number" placeholder="Enter value in ppm" step="1" min="0" onchange="this.value = parseInt(this.value);" required>
+        </div>
+        <div class="friend2field">
+          <label for="phosphorous">Enter Phosphorous (P) value:</label>
+          <input name="phosphorous" type="number" placeholder="Enter value in ppm" step="1" min="0" onchange="this.value = parseInt(this.value);" required>
+        </div>
+        <div class="friend2field">
+          <label for="potassium">Enter Potassium (K) value:</label>
+          <input name="potassium" type="number" placeholder="Enter value in ppm" step="1" min="0" onchange="this.value = parseInt(this.value);" required>
+        </div>
+        <div class="friend2field">
+          <label for="temperature">Enter Temperature Value:</label>
+          <input name="temperature" type="number" placeholder="Enter value in °C" step="0.01" min="0" required>
+        </div>
+        <div class="friend2field">
+          <label for="humidity">Enter Humidity Value:</label>
+          <input name="humidity" type="number" placeholder="Enter value from 0-100" step="0.01" min="0" max="100" required>
+        </div>
+        <div class="friend2field">
+          <label for="ph">Enter pH Value:</label>
+          <input name="ph" type="number" placeholder="Enter pH in range 0-14" step="0.01" min="0" max="14" required>
+        </div>
+        <div class="friend2field">
+          <label for="rainfall">Enter Rainfall Value:</label>
+          <input name="rainfall" type="number" placeholder="Enter value in mm/month" step="0.01" min="0" required>
+        </div>
+        <button type="submit" class="btn mt-3">Predict</button>
+      </form>
+    
+    {% if analyzed_text %}
+    <h2 class="predicted-text">{{ purpose }} {{ analyzed_text }}</h2><br>
+    {% endif %}
+    <div class="d-flex justify-content-between">
+    {% for crop, image in top_3_crops_with_images %}
+        <div class="text-center">
+            <h5 class="mt-0 mb-1">{{ crop }}</h5>
+            <img src="{% static 'images/'|add:image %}" alt="{{ crop }}" width="150" height="150">
+            <!-- You can add more details below the image if needed -->
+        </div>
+    {% endfor %}
+    </div>
+  </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+</html>

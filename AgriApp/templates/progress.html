@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Plant Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #view-history-btn {
+            margin: 20px auto;
+            display: block;
+            /* background-color: #007BFF; */
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 5rem;
+        }
+        /* #view-history-btn:hover {
+            background-color: #0056b3;
+        } */
+        #history-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: none; /* Hide by default */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+        #result-container{
+            animation: fadeIn 0.5s ease-out; /* Fade in effect */
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    max-width: 600px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    display: block; /* Ensure it stays visible */
+        }
+        #result-container.show {
+            opacity: 1;
+            transform: translateY(0);
+}
+        /* New Side Menu Styles */
+        #side-menu {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #4A9E3D;
+            padding-top: 20px;
+            z-index: 1;
+            overflow-x: hidden;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        }
+        #side-menu a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #f4f4f4;
+            display: block;
+            transition: 0.3s;
+        }
+        #side-menu a:hover {
+            background-color: #575757;
+            color: #ffffff;
+        }
+        #side-menu .close-btn {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            font-size: 24px;
+            margin-left: 50px;
+            color: #f4f4f4;
+            cursor: pointer;
+        }
+        #open-side-menu {
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #4A9E3D;
+    color: #f4f4f4;
+    border: none;
+    padding: 10px;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    display: none; /* Initially hidden */
+}
+.side-menu-open #open-side-menu {
+    left: 260px; /* Adjust this value to match the width of your side menu */
+    display: none;
+}
+/* Animation for the result container */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Side Menu -->
+    <div id="side-menu" class="side-menu">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeSideMenu()">&times;</a>
+        <a href="#" id="view-history-btn">View Plant Growth History</a>
+    </div>
+
+    <!-- Button to Open Side Menu -->
+    <button id="open-side-menu" onclick="openSideMenu()">&#9776;</button>
+
+    <h1>Upload Plant Image</h1>
+    <form id="upload-form" method="POST" enctype="multipart/form-data" action="{% url 'predict_plant_growth' %}">
+        {% csrf_token %}
+        <label for="image">Choose an image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+        
+        <!-- CSV data inputs -->
+        <label for="Soil_Type">Soil Type:</label>
+    <select id="Soil_Type" name="Soil_Type" required>
+        <option value="">Select Soil Type</option>
+        <option value="Sandy">Sandy</option>
+        <option value="Clay">Clay</option>
+        <option value="Loamy">Loam</option>
+    </select>
+        
+        <label for="Sunlight_Hours">Sunlight Hours: </label>
+        <input type="number" id="Sunlight_Hours" name="Sunlight_Hours" required>
+        
+        <label for="Water_Frequency">Water Frequency:</label>
+    <select id="Water_Frequency" name="Water_Frequency" required>
+        <option value="">Select Water Frequency</option>
+        <option value="Daily">Daily</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Bi-Weekly">Bi-Weekly</option>
+    </select>
+        
+    <label for="Fertilizer_Type">Fertilizer Type:</label>
+    <select id="Fertilizer_Type" name="Fertilizer_Type" required>
+        <option value="">Select Fertilizer Type</option>
+        <option value="Organic">Organic</option>
+        <option value="Inorganic">Chemical</option>
+        <option value="Balanced">none</option>
+    </select>
+        
+        <label for="Temperature">Temperature:</label>
+        <input type="number" id="Temperature" name="Temperature" required>
+        
+        <label for="Humidity">Humidity:</label>
+        <input type="number" id="Humidity" name="Humidity" required>
+    
+        <button type="submit">Submit</button>
+    </form>    
+    <div id="result-container" style="display:none;">
+        <h2>Prediction Result</h2>
+        <p><strong>Current Growth Stage:</strong> <span id="growth-stage"></span></p>
+        <p><strong>Watering Instructions:</strong> <span id="watering-instructions"></span></p>
+        <p><strong>Fertilizer Instructions:</strong> <span id="fertilizer-instructions"></span></p>
+        <p><strong>Pesticide Instructions:</strong> <span id="pesticide-instructions"></span></p>
+        <p><strong>Next Growth Stage:</strong> <span id="next-growth-stage"></span></p>
+        <p><strong>Next Watering Instructions:</strong> <span id="next-watering-instructions"></span></p>
+        <p><strong>Next Fertilizer Instructions:</strong> <span id="next-fertilizer-instructions"></span></p>
+        <p><strong>Next Pesticide Instructions:</strong> <span id="next-pesticide-instructions"></span></p>
+    </div>
+
+
+    <!-- <button id="view-history-btn">View My Plant Growth History</button> -->
+
+    <div id="history-container">
+        <h2>Your Plant Growth History</h2>
+        <table id="history-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Growth Stage</th>
+                    <th>Watering Instructions</th>
+                    <th>Fertilizer Instructions</th>
+                    <th>Pesticide Instructions</th>
+                    <th>Next Growth Stage</th>
+                    <th>Next Watering Instructions</th>
+                    <th>Next Fertilizer Instructions</th>
+                    <th>Next Pesticide Instructions</th>
+                    <th>Date Uploaded</th>
+                </tr>
+            </thead>
+            <tbody id="history-tbody">
+                <!-- History records will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    
+ <script>
+    // Function to open the side menu
+    function openSideMenu() {
+    document.getElementById("side-menu").style.width = "260px";
+    document.getElementById("open-side-menu").style.display = "none";
+}
+
+
+        // Function to close the side menu
+        function closeSideMenu() {
+    document.getElementById("side-menu").style.width = "0";
+    document.getElementById("open-side-menu").style.display = "block";
+}
+// Initialize the menu state when the page loads
+document.addEventListener("DOMContentLoaded", function() {
+    closeSideMenu(); // Start with the side menu closed
+});
+
+    // Handling the "View My Plant Growth History" button click event
+document.getElementById('view-history-btn').addEventListener('click', function() {
+    const historyContainer = document.getElementById('history-container');
+
+    if (historyContainer.style.display === 'none' || historyContainer.style.display === '') {
+        // Show the history container and fetch data
+        fetch('{% url "fetch_user_history" %}', {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const historyTableBody = document.getElementById('history-tbody');
+            historyTableBody.innerHTML = ''; // Clear existing table rows
+
+            data.records.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><img src="${record.image}" alt="Plant Image"></td>
+                    <td>${record.growth_stage}</td>
+                    <td>${record.watering_instructions}</td>
+                    <td>${record.fertilizer_instructions}</td>
+                    <td>${record.pesticide_instructions}</td>
+                    <td>${record.next_growth_stage || 'N/A'}</td>
+                    <td>${record.next_watering_instructions || 'N/A'}</td>
+                    <td>${record.next_fertilizer_instructions || 'N/A'}</td>
+                    <td>${record.next_pesticide_instructions || 'N/A'}</td>
+                    <td>${record.date_uploaded}</td>
+                `;
+                historyTableBody.appendChild(row);
+            });
+
+            historyContainer.style.display = 'block'; // Show the history container
+        })
+        .catch(error => {
+            console.error('Error fetching history:', error);
+            alert('Error fetching history. Please try again later.');
+        });
+    } else {
+        // Hide the history container
+        historyContainer.style.display = 'none';
+    }
+});
+
+// Ensure that history container is hidden when the page loads
+document.getElementById('history-container').style.display = 'none';
+
+// Handling the form submission event
+document.getElementById('upload-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            
+            const formData = new FormData(this);
+            
+            fetch('{% url "predict_plant_growth" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    console.error('Error:', data.error);
+                    alert('An error occurred: ' + data.error); // Display error to the user
+                } else {
+                    document.getElementById('result-container').style.display = 'block';
+                    document.getElementById('growth-stage').innerText = data.current_growth_stage;
+                    document.getElementById('watering-instructions').innerText = data.watering_instructions;
+                    document.getElementById('fertilizer-instructions').innerText = data.fertilizer_instructions;
+                    document.getElementById('pesticide-instructions').innerText = data.pesticide_instructions;
+                    document.getElementById('next-growth-stage').innerText = data.next_growth_stage;
+                    document.getElementById('next-watering-instructions').innerText = data.next_watering_instructions;
+                    document.getElementById('next-fertilizer-instructions').innerText = data.next_fertilizer_instructions;
+                    document.getElementById('next-pesticide-instructions').innerText = data.next_pesticide_instructions;
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                alert('There was a problem with the submission. Please try again.');
+            });
+        });
+
+
+        // Function to show the result container
+function showResult(data) {
+    const resultContainer = document.getElementById('result-container');
+    
+    // Update the result container with data
+    document.getElementById('growth-stage').innerText = data.growth_stage;
+    document.getElementById('watering-instructions').innerText = data.watering_instructions;
+    document.getElementById('fertilizer-instructions').innerText = data.fertilizer_instructions;
+    document.getElementById('pesticide-instructions').innerText = data.pesticide_instructions;
+    document.getElementById('next-growth-stage').innerText = data.next_growth_stage || 'N/A';
+    document.getElementById('next-watering-instructions').innerText = data.next_watering_instructions || 'N/A';
+    document.getElementById('next-fertilizer-instructions').innerText = data.next_fertilizer_instructions || 'N/A';
+    document.getElementById('next-pesticide-instructions').innerText = data.next_pesticide_instructions || 'N/A';
+    
+    // Display the result container and apply animation
+    resultContainer.classList.add('show');
+}
+// Example usage of showResult function with data
+const exampleData = {
+    growth_stage: "Vegetative",
+    watering_instructions: "Water daily.",
+    fertilizer_instructions: "Apply balanced fertilizer.",
+    pesticide_instructions: "Apply pesticide every two weeks.",
+    next_growth_stage: "Flowering",
+    next_watering_instructions: "Water every other day.",
+    next_fertilizer_instructions: "Use high-phosphorus fertilizer.",
+    next_pesticide_instructions: "Monitor for pests.",
+};
+
+// Call showResult to demonstrate functionality
+showResult(exampleData);
+ </script>       
+</body>
+</html>

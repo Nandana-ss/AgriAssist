@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Review</title>
+</head>
+<body>
+    <h1>Submit Review</h1>
+    <form id="uploadForm" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Review</button>
+    </form>
+    <div id="result">
+        <h2>Prediction</h2>
+        <p id="prediction"></p>
+        <h2>Care Instructions</h2>
+        <p id="watering_instructions"></p>
+        <p id="fertilizer_instructions"></p>
+        <p id="pesticide_instructions"></p>
+    </div>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/predict_plant_care/', true);
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    document.getElementById('prediction').textContent = response.plant_name;
+                    document.getElementById('watering_instructions').textContent = response.watering_instructions;
+                    document.getElementById('fertilizer_instructions').textContent = response.fertilizer_instructions;
+                    document.getElementById('pesticide_instructions').textContent = response.pesticide_instructions;
+                } else {
+                    alert('An error occurred!');
+                }
+            };
+
+            xhr.send(formData);
+        });
+
+        // Function to get the CSRF token
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

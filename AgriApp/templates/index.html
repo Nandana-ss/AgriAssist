@@ -1,0 +1,775 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRI ASSIST</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
+    <style> 
+        /* Styles for Content Above Footer */
+.content-above-footer {
+    padding: 40px 20px;
+    background-color: #f5f5f5;
+}
+
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.content-text {
+    flex: 1;
+    padding: 20px;
+    min-width: 300px;
+}
+
+.content-text h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.content-text p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.content-image {
+    flex: 1;
+    padding: 20px;
+    min-width: 300px;
+}
+
+.content-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+.content-image img:hover {
+    transform: scale(1.05);
+}
+
+/* Footer Styles */
+footer {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.footer-line {
+    border: none;
+    height: 2px;
+    background: #88c057;
+    margin: 0 auto 20px auto;
+    width: 80%;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 20px;
+    min-width: 200px;
+}
+
+.footer-section h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.footer-section p,
+.footer-section ul,
+.footer-section li {
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #88c057;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    display: inline-block;
+}
+
+.social-icons img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s;
+}
+
+.social-icons a:hover img {
+    transform: scale(1.2);
+}
+
+.footer-bottom {
+    margin-top: 20px;
+}
+
+.footer-bottom p {
+    margin: 0;
+    font-size: 0.8em;
+}
+
+/* services */
+a.boxfirst{
+width: 700px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(42, 31, 31);
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-image: url('{% static "images/disease.jpg" %}');
+    background-size: cover; /* Ensure the image covers the entire box */
+    background-position: center; /* Center the image within the box */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+a.boxgreen {
+    width: 700px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(42, 31, 31);
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-image: url('{% static "images/crop_recommendation.jpeg" %}');
+    background-size: cover; /* Ensure the image covers the entire box */
+    background-position: center; /* Center the image within the box */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+a.boxblue {
+    width: 700px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(42, 31, 31);
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   
+    background-image: url('{% static "images/price_prediction.jpg" %}'); /* Replace with your image path */
+    background-size: cover; /* Ensure the image covers the entire box */
+    background-position: center; /* Center the image within the box */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+a.boxyellow {
+    width: 700px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(42, 31, 31);
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-image: url('{% static "images/progress.jpg" %}');
+    background-size: cover; /* Ensure the image covers the entire box */
+    background-position: center; /* Center the image within the box */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+
+a.boxfirst:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(12, 0, 0, 0.3);
+}
+    
+a.boxgreen:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(14, 1, 1, 0.3);
+}
+a.boxblue:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(7, 0, 0, 0.3);
+}
+a.boxyellow:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(11, 0, 0, 0.3);
+}
+/* services end */
+.carousel-caption h5 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold; /* Bold for main heading */
+}
+
+.carousel-caption p {
+    font-family: 'Roboto', cursive; /* Cursive for subheading */
+    font-style: italic; /* Optional italic style */
+}
+.about
+{
+    text-align: center;
+    color: #88c057;
+
+
+}
+.trainers-section {
+            padding: 50px 20px;
+        }
+        .trainers-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+        .card {
+            background-color: #0a7a44;
+            border: none;
+            border-radius: 10px;
+        }
+        .card img {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .card-title {
+            margin-top: 10px;
+            color: #f0e7e7;
+        }
+        .card-footer {
+            background-color: #4f6742;
+        }
+        .social-icons a {
+            color: #fff;
+            font-size: 1.2em;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .about-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.about-subtitle {
+    font-size: 1.5em;
+    font-style: italic;
+    margin: 1em 0 0.5em;
+}
+
+.about-text {
+    font-size: 1em;
+    line-height: 1.5;
+    color: #333;
+}
+
+.values-list {
+    list-style: none;
+    padding: 0;
+}
+
+.value-item {
+    font-size: 1em;
+    margin: 0.5em 0;
+}
+
+.footer {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1em 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer-text {
+    margin: 0;
+}
+.div-box
+{
+    /* From https://css.glass */
+background: rgba(84, 91, 84, 0.36);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(0.8px);
+-webkit-backdrop-filter: blur(0.8px);
+border: 1px solid rgb(200, 239, 81);
+    
+
+    
+}
+
+/* authentication buttons */
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    margin-right: 100px; /* Pushes the buttons to the left */
+}
+
+.auth-buttons a {
+    background-color: #ced5cd; /* Light green color */
+    color: rgb(8, 68, 35); /* Text color */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 15px; /* Padding for button */
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center; /* Center the text */
+    display: inline-block; /* Ensure the link behaves like a button */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.auth-buttons a:hover {
+    background-color: #eeee23; /* Darker green on hover */
+}
+
+.auth-buttons a:active {
+    background-color: #4A9E3D; /* Even darker green when clicked */
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    
+}
+
+/* avatar */
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+}
+
+.dropbtn img {
+    margin-right: 10px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        
+            <a class="navbar-brand" href="#"><img src="{% static 'images/logo final.png' %}" alt="" width="70" height="70"><b>AGRI ASSIST</b></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"><b>Home</b></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about_us"><b>About</b></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact_us"><b>contact us</b></a>
+                    </li>
+ 
+                </ul>
+                {% if user.is_authenticated %}
+                <div class="auth-buttons">
+                    <a href="{% url 'logout' %}" class="sign-in" style="text-decoration:none;">Sign Out</a>
+                </div>
+                <!-- avatar -->
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <img src="{% static 'images/avatar.jpg' %}" alt="Avatar" class="avatar">
+                        {{ user.username }}
+                    </button>
+                </div>
+                {% else %}
+                <div class="auth-buttons">
+                    <a href="{% url 'user_login' %}" class="sign-in" style="text-decoration:none;">Sign In</a>
+                    <a href="{% url 'register' %}" class="sign-up" style="text-decoration:none;">Sign Up</a>
+                </div>
+                {% endif %}
+            </div>
+                
+    </nav>
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <video width="1750" height="1000" controls autoplay muted loop>
+                    <source src="{% static 'images/vedio.mp4' %}" type="video/mp4" >
+                    
+                </video>
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 style="color: black;">𝚆𝙴𝙻𝙲𝙾𝙼𝙴 𝚃𝙾 𝙰𝙶𝚁𝙸𝙰𝚂𝚂𝙸𝚂𝚃</h1>
+                    <p style="color: black;">"Empowering farmers with smart solutions for sustainable agriculture."</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <video width="1750" height="1000" controls autoplay muted loop>
+                    <source src="{% static 'images/vedio1.mp4' %}" type="video/mp4" >
+                    
+                </video>
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 style="color: black;">𝙸𝚗𝚗𝚘𝚟𝚊𝚝𝚒𝚟𝚎 𝙵𝚊𝚛𝚖𝚒𝚗𝚐 𝚃𝚎𝚌𝚑𝚗𝚒𝚚𝚞𝚎𝚜</h1>
+                    <p style="color: black;">"Discover new methods and technologies to boost your crop yields."</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <video width="1750" height="1000" controls autoplay muted loop>
+                    <source src="{% static 'images/robot.mov' %}" type="video/mp4" >
+                    
+                </video>
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 style="color: black;">𝙰𝚐𝚛𝚒 𝙰𝚜𝚜𝚒𝚜𝚝</h1>
+                    <p style="color: black;">"Connect with other farmers and share insights for a greener future."</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+   <!-- chatbot  -->
+    <script>
+        window.watsonAssistantChatOptions = {
+          integrationID: "0aacd6dc-4c17-4634-b796-5124a826f8c8", // The ID of this integration.
+          region: "au-syd", // The region your integration is hosted in.
+          serviceInstanceID: "caa6fe97-7ce2-49d7-a188-d22a1d0fa232", // The ID of your service instance.
+          onLoad: async (instance) => { await instance.render(); }
+        };
+        setTimeout(function(){
+          const t=document.createElement('script');
+          t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+          document.head.appendChild(t);
+        });
+      </script>
+<!-- chatbot end -->
+        </div>
+    </div>
+
+<!-- services  -->
+<div class="container">
+    <a href="{% url 'disease_recognition' %}" class="boxfirst" style="color:White;text-align:center;text-decoration:none"><h3 class="div-box">Crop Disease Detection</h3></a>
+    <a href="{% url 'crop_recommendation' %}" class="boxgreen" style="color:white;text-align:center;text-decoration:none"><h3 class="div-box">Crop Recommendation System</h3></a>
+    <a href="{% url 'predict_price' %}" class="boxblue" style="color:white;text-align:center;text-decoration:none"><h3 class="div-box">Crop Price Prediction</h3></a>
+    <a href="{% url 'progress' %}" class="boxyellow" style="color:white;text-align:center;text-decoration:none"><h3 class="div-box">Plant Progress Tracker</h3></a>
+</div>
+    <!-- services end  -->
+     <hr>
+
+        <section class="content-above-footer">
+            <div class="content-container">
+                <div class="content-text">
+                    
+                    <p>The growth of the global population, which is projected to reach 
+                        10 billion by 2050, is placing significant pressure on the agricultural
+                         sector to increase crop production and maximize yields. 
+                         To address looming food shortages, two potential approaches have emerged
+                         : expanding land use and adopting large-scale farming, 
+                         or embracing innovative practices and leveraging technological 
+                         advancements to enhance productivity on existing farmland</p>
+                </div>
+                <div class="content-image">
+                    <img src="{% static "images/kissan2.jpg" %}" alt="Feature Image">
+                </div>
+            </div>
+        </section>
+        <hr>
+        <section class="content-above-footer">
+            <div class="content-container">
+                <div class="content-text">
+                    
+                    <p>Until recently, using the words AI and agriculture in the 
+                        same sentence may have seemed like a strange combination. 
+                        After all, agriculture has been the backbone of human
+                         civilization for millennia, providing sustenance as well as contributing
+                          to economic development, while even the most primitive AI only emerged
+                           several decades ago. Nevertheless, innovative ideas are being introduced in
+                            every industry, and agriculture is no exception. In recent years, 
+                            the world has witnessed rapid advancements in agricultural technology,
+                             revolutionizing farming practices.</p>
+                </div>
+                <div class="content-image">
+                    <img src="{% static "images/kissan1.jpg" %}" alt="Feature Image">
+                </div>
+            </div>
+
+            
+        </section>
+        <hr>
+        <h1 class=" about" id="about_us"> ABOUT US </h1>
+            <div class="container">
+                
+                <!-- <p class="about-text">Welcome to Agri Assist, your trusted partner in modern agriculture. Our mission is to empower farmers, researchers, and agricultural businesses with cutting-edge AI solutions to improve efficiency, productivity, and sustainability.</p> -->
+                
+                <div class="about-mission">
+                    <h2 class="about-subtitle">Our Mission</h2>
+                    <p class="about-text">At Agri Assist, we aim to revolutionize the 
+                        agricultural industry through innovative AI technologies.
+                         We provide tools for price forecasting, weather forecasting,
+                          and image recognition, helping our clients make informed 
+                          decisions and achieve better outcomes.</p>
+                </div>
+    
+                <div class="about-vision">
+                    <h2 class="about-subtitle">Our Vision</h2>
+                    <p class="about-text">We envision a future where technology and agriculture
+                         work hand in hand to create a sustainable and prosperous world.
+                          Our vision is to be the leading provider of AI-based agricultural 
+                          solutions globally.</p>
+                </div>
+    
+            </div>
+        </section>
+        <!-- About 4 - Bootstrap Brain Component -->
+<section class="py-3 py-md-5 py-xl-8">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-10 col-lg-8">
+          <!-- <h3 class="fs-5 mb-2 text-secondary text-uppercase">About</h3> -->
+          <!-- <h2 class="display-5 mb-4">At our core, we prioritize pushing boundaries, embracing the unknown, and fostering a culture of continuous learning.</h2>
+          <button type="button" class="btn btn-lg btn-primary mb-3 mb-md-4 mb-xl-5">Connect Now</button> -->
+        </div>
+      </div>
+    </div>
+  
+    <div class="container">
+      <div class="row gy-3 gy-md-4 gy-lg-0">
+        <div class="col-12 col-lg-6">
+          <div class="card bg-light p-3 m-0">
+            <div class="row gy-3 gy-md-0 align-items-md-center">
+              <div class="col-md-5">
+                <img src="{% static "images/disease_prediction.jpg" %}" class="img-fluid rounded-start" alt="Why Choose Us?">
+              </div>
+              <div class="col-md-7">
+                <div class="card-body p-0">
+                  <h2 class="card-title h4 mb-3">Crop Disease Prediction</h2>
+                  <p class="card-text lead">Crop disease prediction involves using 
+                    machine learning algorithms to analyze various factors, such as
+                     plant images, weather conditions, and soil health, to identify
+                      potential diseases affecting crops. By leveraging AI, farmers 
+                      can receive timely insights and recommendations, enabling them
+                       to take proactive measures to protect their crops, improve yields,
+                        and reduce losses. This approach not only enhances agricultural
+                         productivity but also supports sustainable farming practices.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="card bg-light p-3 m-0">
+            <div class="row gy-3 gy-md-0 align-items-md-center">
+              <div class="col-md-5">
+                <img src="{% static "images/recommendation.jpg" %}" class="img-fluid rounded-start" alt="Visionary Team">
+              </div>
+              <div class="col-md-7">
+                <div class="card-body p-0">
+                  <h2 class="card-title h4 mb-3">Crop Recommendation system</h2>
+                  <p class="card-text lead">A crop recommendation system uses data-driven 
+                    algorithms to suggest the most suitable crops for specific regions based o
+                    n factors like soil type, climate conditions, and historical yield data.
+                     By analyzing these variables, the system helps farmers make informed 
+                     decisions, optimizing resource use and maximizing productivity. T
+                     his ensures better crop selection that aligns with environmental
+                      conditions, leading to sustainable agricultural practices and
+                       improved food security.
+
+
+
+
+
+
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <div class="row gy-3 gy-md-4 gy-lg-0">
+      <div class="col-12 col-lg-6">
+        <div class="card bg-light p-3 m-0">
+          <div class="row gy-3 gy-md-0 align-items-md-center">
+            <div class="col-md-5">
+              <img src="{% static "images/price.jpg" %}" class="img-fluid rounded-start" alt="Why Choose Us?">
+            </div>
+            <div class="col-md-7">
+              <div class="card-body p-0">
+                <h2 class="card-title h4 mb-3">Crop Price Prediction</h2>
+                <p class="card-text lead">Crop price prediction involves using statistical
+                     models and machine learning techniques to forecast future
+                      prices of agricultural products based on historical data,
+                       market trends, weather conditions, and other relevant factors.
+                        By providing accurate price forecasts, farmers and stakeholders
+                         can make informed decisions about planting, harvesting, 
+                         and selling crops, ultimately enhancing profitability and market stability. This
+                     predictive insight supports better planning and resource .
+                     </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="card bg-light p-3 m-0">
+          <div class="row gy-3 gy-md-0 align-items-md-center">
+            <div class="col-md-5">
+              <img src="{% static "images/progress_prediction.jpg" %}" class="img-fluid rounded-start" alt="Visionary Team">
+            </div>
+            <div class="col-md-7">
+              <div class="card-body p-0">
+                <h2 class="card-title h4 mb-3">Plant Progress Chart</h2>
+                <p class="card-text lead">A plant progress chart visually tracks the growth and development 
+                    stages of crops over time. This chart can include key indicators such as germination rates,
+                     leaf growth, flowering, and harvest readiness. By monitoring these metrics, farmers can assess
+                      plant health, identify potential issues early, and make informed decisions about irrigation,
+                       fertilization, and pest management. Utilizing such charts aids in optimizing crop yields and 
+                       ensuring successful agricultural outcomes..</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Footer -->
+        <footer>
+            <hr class="footer-line">
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3>About Agri Assist</h3>
+                    <p>Your go-to platform for all agriculture-related needs. We provide weather forecasting, image recognition, price forecasting, and more to help farmers, researchers, and agricultural businesses thrive.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Crop Recommendation</a></li>
+                        <li><a href="#">Image Recognition</a></li>
+                        <li><a href="#">Price Forecasting</a></li>
+                        <li><a href="#">Plant progress tracker</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section" id="contact_us">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li>Email: support@agriassist.com</li>
+                    </ul>
+                </div>
+                <!-- <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><img src="images/facebook-icon.png" alt="Facebook"></a>
+                        <a href="#"><img src="images/twitter-icon.png" alt="Twitter"></a>
+                        <a href="#"><img src="images/instagram-icon.png" alt="Instagram"></a>
+                        <a href="#"><img src="images/linkedin-icon.png" alt="LinkedIn"></a>
+                    </div>
+                </div>
+            </div> -->
+            <div class="footer-bottom">
+                <p>&copy; 2024 Agri Assist. All rights reserved.</p>
+            </div>
+        </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/abouts/about-4/assets/css/about-4.css">
+</body>
+</html>

@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plant Disease Recognition</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
+    <style>
+        /* style.css */
+
+body {
+    padding-top: 70px; /* Ensure content is not hidden behind the fixed navbar */
+}
+
+.navbar {
+    background-color: #81B622; /* Light background color */
+    border-bottom: 1px solid #e7e7e7; /* Subtle border at the bottom */
+}
+
+.navbar-brand {
+    display: flex; 
+    align-items: center;
+}
+
+.navbar-brand img {
+    margin-right: 10px; /* Space between logo and text */
+}
+
+.nav-link {
+    font-weight: bold;
+    color: #333;
+}
+
+.nav-link:hover {
+    color: #0056b3; /* Darker color on hover */
+}
+
+.auth-buttons {
+    margin-left: 20px;
+}
+
+.auth-buttons .sign-in,
+.auth-buttons .sign-up {
+    margin-right: 10px;
+    color: white;
+    font-style:bold ;
+}
+
+.auth-buttons .sign-in:hover,
+.auth-buttons .sign-up:hover {
+    text-decoration: underline;
+}
+
+.dropdown .dropbtn {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown .dropbtn img.avatar {
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler:focus {
+    outline: none;
+}
+
+@media (max-width: 768px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+    }
+
+    .auth-buttons {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'images/logo final.png' %}" alt="" width="70" height="70">
+            <b>AGRI ASSIST</b>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'index' %}"><b>Home</b></a>
+                </li>
+                
+            </ul>
+            {% if user.is_authenticated %}
+            <div class="auth-buttons">
+                <a href="{% url 'logout' %}" class="sign-in" style="text-decoration:none;">Sign Out</a>
+            </div>
+            <!-- avatar -->
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <img src="{% static 'images/avatar.jpg' %}" alt="Avatar" class="avatar">
+                    {{ user.username }}
+                </button>
+            </div>
+            {% else %}
+            <div class="auth-buttons">
+                <a href="{% url 'user_login' %}" class="sign-in" style="text-decoration:none;">Sign In</a>
+                <a href="{% url 'register' %}" class="sign-up" style="text-decoration:none;">Sign Up</a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="mt-5">Plant Disease Recognition 🌿🔍</h1>
+        <form method="post" enctype="multipart/form-data" action="{% url 'disease_recognition' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="image">Choose an image:</label>
+                <input type="file" name="image" class="form-control-file" id="image">
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+
+        {% if file_url %}
+            <div class="mt-5">
+                <h3>Uploaded Image:</h3>
+                <img src="{{ file_url }}" width="400px" height="400px" class="img-fluid" alt="Uploaded Image">
+            </div>
+
+            <div class="mt-5">
+                <h3>Our Prediction:</h3>
+                <!-- <p>Disease: {{ disease_name }}</p> -->
+                <p><strong>Definition:</strong> {{ definition }}</p>
+                <p><strong>Pesticide Recommendation:</strong> {{ pesticide }}</p>
+                <p><strong>Fertilizer Recommendation:</strong> {{ fertilizer }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
