@@ -42,6 +42,7 @@ class PlantGrowthRecordAdmin(admin.ModelAdmin):
         'soil_type',
         'water_frequency',
         'fertilizer_type',
+     
     )
     list_filter = (
         'growth_stage',

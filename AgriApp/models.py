@@ -40,6 +40,7 @@ class PlantGrowthRecord(models.Model):
     fertilizer_type = models.CharField(max_length=100)
     additional_details = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    
 
     def __str__(self):
         # Update this to use existing attributes

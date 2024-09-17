@@ -244,7 +244,7 @@
 
     <div id="history-container">
         <h2>Your Plant Growth History</h2>
-        <table id="history-table">
+        <table id="history-table" style="width: 100%;">
             <thead>
                 <tr>
                     <th>Image</th>
@@ -253,9 +253,6 @@
                     <th>Fertilizer Instructions</th>
                     <th>Pesticide Instructions</th>
                     <th>Next Growth Stage</th>
-                    <th>Next Watering Instructions</th>
-                    <th>Next Fertilizer Instructions</th>
-                    <th>Next Pesticide Instructions</th>
                     <th>Date Uploaded</th>
                 </tr>
             </thead>
@@ -310,9 +307,6 @@ document.getElementById('view-history-btn').addEventListener('click', function()
                     <td>${record.fertilizer_instructions}</td>
                     <td>${record.pesticide_instructions}</td>
                     <td>${record.next_growth_stage || 'N/A'}</td>
-                    <td>${record.next_watering_instructions || 'N/A'}</td>
-                    <td>${record.next_fertilizer_instructions || 'N/A'}</td>
-                    <td>${record.next_pesticide_instructions || 'N/A'}</td>
                     <td>${record.date_uploaded}</td>
                 `;
                 historyTableBody.appendChild(row);

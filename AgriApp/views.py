@@ -192,12 +192,14 @@ import pandas as pd
 import joblib
 from tensorflow.keras.models import load_model
 import logging
-
+from django.utils import timezone
+# Setup logger
 logger = logging.getLogger(__name__)
 
-# Load the trained models
+# Load models and other resources
+
 image_model = load_model('AgriApp/models/plant_growth_model.keras')
-csv_model = joblib.load('AgriApp/models/csv_growth_model.pkl')  # Load using joblib
+csv_model = joblib.load('AgriApp/models/csv_growth_model.pkl')
 
 # Define class names and care instructions
 class_names = {
@@ -216,19 +218,39 @@ care_instructions = {
         'Pesticide': 'Monitor for pests and apply appropriate insecticide if necessary.',
     },
     'Rice_Germination_stage': {
-       'Watering': 'Maintain constant moisture in the soil.',
-       'Fertilizer': 'Apply a nitrogen-rich fertilizer to support early growth.',
-       'Pesticide': 'Watch for fungal infections and treat as needed.',
+        'Watering': 'Maintain constant moisture in the soil.',
+        'Fertilizer': 'Apply a nitrogen-rich fertilizer to support early growth.',
+        'Pesticide': 'Watch for fungal infections and treat as needed.',
     },
-    # Other stages...
+    'Rice_Seedling_Stage': {
+        'Watering': 'Ensure the soil is consistently moist.',
+        'Fertilizer': 'Use a balanced fertilizer with more nitrogen.',
+        'Pesticide': 'Check for pests like aphids or leafhoppers.',
+    },
+    'Rice_Grain_Filling_Stage': {
+        'Watering': 'Reduce watering as the grains start filling.',
+        'Fertilizer': 'Apply a low-nitrogen fertilizer to avoid excessive growth.',
+        'Pesticide': 'Monitor for diseases like leaf blast or bacterial blight.',
+    },
+    'Rice_Dough_Stage': {
+        'Watering': 'Withhold water to allow grains to harden.',
+        'Fertilizer': 'No additional fertilization needed.',
+        'Pesticide': 'Ensure no fungal or pest issues are present.',
+    },
+    'Rice_Harvesting_stage': {
+        'Watering': 'No watering needed.',
+        'Fertilizer': 'No additional fertilization needed.',
+        'Pesticide': 'Harvest timely to avoid pest infestations.',
+    },
 }
 
 growth_stages = {
     'Rice_seed_level': 'Rice_Germination_stage',
     'Rice_Germination_stage': 'Rice_Seedling_Stage',
-    'Rice_Seedling_Stage' : 'Rice_Grain_Filling_Stage',
-    'Rice_Grain_Filling_Stage' : 'Rice_Dough_Stage',
-    'Rice_Dough_Stage' : 'Rice_Harvesting_stage',
+    'Rice_Seedling_Stage': 'Rice_Grain_Filling_Stage',
+    'Rice_Grain_Filling_Stage': 'Rice_Dough_Stage',
+    'Rice_Dough_Stage': 'Rice_Harvesting_stage',
+    'Rice_Harvesting_stage':'No stages available'
 }
 
 # Define mappings for categorical features
@@ -240,7 +262,7 @@ fertilizer_type_mapping = {'Organic': 0, 'Inorganic': 1, 'Balanced': 2}
 @require_http_methods(["POST"])
 def predict_plant_growth(request):
     try:
-        # Extract and map values from request.POST
+        # Extract and map CSV data from request
         csv_data = {
             'Soil_Type': request.POST.get('Soil_Type'),
             'Sunlight_Hours': request.POST.get('Sunlight_Hours'),
@@ -249,12 +271,13 @@ def predict_plant_growth(request):
             'Temperature': request.POST.get('Temperature'),
             'Humidity': request.POST.get('Humidity'),
         }
-
-        # Validate and encode CSV data
+        # Validate the input fields
+        if not all([csv_data['Soil_Type'], csv_data['Sunlight_Hours'], csv_data['Water_Frequency'], csv_data['Fertilizer_Type'], csv_data['Temperature'], csv_data['Humidity']]):
+            return JsonResponse({'error': 'Missing required fields'}, status=400)
         soil_type = soil_type_mapping.get(csv_data['Soil_Type'], soil_type_mapping['Sandy'])
         water_frequency = water_frequency_mapping.get(csv_data['Water_Frequency'], water_frequency_mapping['Daily'])
         fertilizer_type = fertilizer_type_mapping.get(csv_data['Fertilizer_Type'], fertilizer_type_mapping['Organic'])
-
+        
         csv_data_encoded = {
             'Soil_Type': soil_type,
             'Sunlight_Hours': float(csv_data.get('Sunlight_Hours', 0)),
@@ -264,10 +287,8 @@ def predict_plant_growth(request):
             'Humidity': float(csv_data.get('Humidity', 0)),
         }
 
-        # Create DataFrame for model input
         csv_input = pd.DataFrame([csv_data_encoded])
 
-        # Check for NaN values
         if csv_input.isnull().values.any():
             logger.error("CSV input contains NaN values.")
             return JsonResponse({'error': 'CSV input contains null values'}, status=400)
@@ -282,10 +303,14 @@ def predict_plant_growth(request):
             try:
                 img_file = request.FILES['image']
                 img = Image.open(img_file)
+                 # Convert the image to RGB if it has an alpha channel
+                if img.mode == 'RGBA':
+                  img = img.convert('RGB')
+                elif img.mode != 'RGB':
+                  img = img.convert('RGB')
                 img = img.resize((150, 150))
                 img_array = np.expand_dims(np.array(img), axis=0) / 255.0
 
-                # Image model prediction
                 img_prediction = image_model.predict(img_array)
                 current_growth_stage_idx = np.argmax(img_prediction, axis=1)[0]
                 current_growth_stage = class_names.get(current_growth_stage_idx, 'Unknown')
@@ -311,12 +336,18 @@ def predict_plant_growth(request):
                 water_frequency=csv_data['Water_Frequency'],
                 fertilizer_type=csv_data['Fertilizer_Type'],
                 additional_details=request.POST.get('additional_details', ''),
+                
             )
             record.save()
         except Exception as e:
             logger.error(f"Error saving record: {str(e)}")
             return JsonResponse({'error': f'Error saving record: {str(e)}'}, status=500)
-
+        # Fetch the care instructions for the next growth stage if available
+        next_stage_instructions = care_instructions.get(next_growth_stage, {
+         'Watering': 'No instructions available for next stage.',
+         'Fertilizer': 'No instructions available for next stage.',
+         'Pesticide': 'No instructions available for next stage.',
+    })
         # Return success response
         response_data = {
             'current_growth_stage': current_growth_stage,
@@ -324,13 +355,16 @@ def predict_plant_growth(request):
             'fertilizer_instructions': instructions.get('Fertilizer', 'No instructions available.'),
             'pesticide_instructions': instructions.get('Pesticide', 'No instructions available.'),
             'next_growth_stage': growth_stages.get(current_growth_stage, 'No further stages'),
+            'next_watering_instructions': next_stage_instructions.get('Watering', 'No instructions available for next stage.'),
+            'next_fertilizer_instructions': next_stage_instructions.get('Fertilizer', 'No instructions available for next stage.'),
+            'next_pesticide_instructions': next_stage_instructions.get('Pesticide', 'No instructions available for next stage.'),
         }
         return JsonResponse(response_data)
     
     except Exception as e:
         logger.error(f"Unexpected error: {str(e)}")
         return JsonResponse({'error': f'Unexpected error: {str(e)}'}, status=500)
-    
+
 from django.shortcuts import render
 from .forms import CropPriceForm
 import pickle
