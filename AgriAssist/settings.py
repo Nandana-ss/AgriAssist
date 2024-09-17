@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -140,12 +142,16 @@ DEFAULT_FROM_EMAIL = 'agriassist35@gmail.com'
 CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as broker
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Kolakata'
+
 
 # Celery Beat for periodic tasks
+# Celery configurations
 CELERY_BEAT_SCHEDULE = {
-    'send--reminder-everyday': {
-        'task': 'AgriApp.tasks.send_reminder',
-        'schedule': 86400.0,  # 24 hours in seconds 
+    'update-growth-stage-and-send-reminders-every-day': {
+        'task': 'AgriApp.tasks.update_growth_stage_and_send_reminders',
+        'schedule': crontab(hour=0, minute=0),  # Every day at midnight
     },
 }
+
+CELERY_TIMEZONE = 'UTC'  # timezone 
+

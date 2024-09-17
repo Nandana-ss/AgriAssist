@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractUser, Group, Permission
-
+from django.utils import timezone
 # register
 class CustomUser(AbstractUser):
     phone = models.CharField(max_length=15, unique=True, null=True, blank=True)
@@ -40,11 +40,11 @@ class PlantGrowthRecord(models.Model):
     fertilizer_type = models.CharField(max_length=100)
     additional_details = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+    last_stage_update = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        # Update this to use existing attributes
-        return f"Growth Stage: {self.growth_stage} - Uploaded on: {self.date_uploaded}"
+def __str__(self):
+    return f"Growth Stage: {self.growth_stage} - Uploaded on: {self.date_uploaded} - Last Updated: {self.last_stage_update}"
+
 
 class Review(models.Model):
     record = models.OneToOneField(PlantGrowthRecord, on_delete=models.CASCADE)
