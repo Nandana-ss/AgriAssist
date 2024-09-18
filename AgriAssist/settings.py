@@ -138,20 +138,16 @@ DEFAULT_FROM_EMAIL = 'agriassist35@gmail.com'
 
 # settings.py
 
-# Celery Configuration
 CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as broker
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Redis as backend
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
-
-
-# Celery Beat for periodic tasks
-# Celery configurations
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+# Celery Beat Schedule
 CELERY_BEAT_SCHEDULE = {
     'update-growth-stage-and-send-reminders-every-day': {
         'task': 'AgriApp.tasks.update_growth_stage_and_send_reminders',
-        'schedule': crontab(hour=0, minute=0),  # Every day at midnight
+        'schedule': crontab(minute=0),  # Every hour on the hour
     },
 }
-
-CELERY_TIMEZONE = 'UTC'  # timezone 
-

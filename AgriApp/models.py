@@ -45,11 +45,10 @@ class PlantGrowthRecord(models.Model):
 def __str__(self):
     return f"Growth Stage: {self.growth_stage} - Uploaded on: {self.date_uploaded}"
 
-
 class Review(models.Model):
     record = models.OneToOneField(PlantGrowthRecord, on_delete=models.CASCADE)
     review_text = models.TextField()
-    rating = models.IntegerField()  # Adjust rating type or range as needed
+    rating = models.IntegerField() 
     reviewed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
