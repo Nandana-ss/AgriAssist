@@ -43,7 +43,7 @@ class PlantGrowthRecord(models.Model):
     last_stage_update = models.DateTimeField(default=timezone.now)
 
 def __str__(self):
-    return f"Growth Stage: {self.growth_stage} - Uploaded on: {self.date_uploaded} - Last Updated: {self.last_stage_update}"
+    return f"Growth Stage: {self.growth_stage} - Uploaded on: {self.date_uploaded}"
 
 
 class Review(models.Model):
