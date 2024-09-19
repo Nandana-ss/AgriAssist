@@ -8,9 +8,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-@shared_task
-def test_task():
-    print("Celery task is working!")
 
 @shared_task
 def update_growth_stage_and_send_reminders():

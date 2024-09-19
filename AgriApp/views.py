@@ -192,7 +192,7 @@ import pandas as pd
 import joblib
 from tensorflow.keras.models import load_model
 import logging
-from django.utils import timezone
+
 # Setup logger
 logger = logging.getLogger(__name__)
 
@@ -315,6 +315,8 @@ def predict_plant_growth(request):
                 current_growth_stage_idx = np.argmax(img_prediction, axis=1)[0]
                 current_growth_stage = class_names.get(current_growth_stage_idx, 'Unknown')
                 instructions = care_instructions.get(current_growth_stage, {})
+                
+                
             except Exception as e:
                 logger.error(f"Image prediction error: {str(e)}")
                 return JsonResponse({'error': f'Image prediction error: {str(e)}'}, status=500)
@@ -348,6 +350,8 @@ def predict_plant_growth(request):
          'Fertilizer': 'No instructions available for next stage.',
          'Pesticide': 'No instructions available for next stage.',
     })
+        
+        
         # Return success response
         response_data = {
             'current_growth_stage': current_growth_stage,
@@ -365,6 +369,49 @@ def predict_plant_growth(request):
         logger.error(f"Unexpected error: {str(e)}")
         return JsonResponse({'error': f'Unexpected error: {str(e)}'}, status=500)
 
+# email
+from django.shortcuts import render
+from django.http import HttpResponse
+from .tasks import update_growth_stage_and_send_reminders
+from django_celery_beat.models import PeriodicTask, CrontabSchedule
+from datetime import datetime
+
+# Create your views here.
+
+def trigger_task_now(request):
+    """
+    Trigger the Celery task immediately.
+    """
+    update_growth_stage_and_send_reminders.delay()
+    return HttpResponse("Task triggered immediately!")
+
+def testView(request):
+    update_growth_stage_and_send_reminders.delay()
+    return HttpResponse("Done")
+
+def send_mail_to_all_users(request):
+    update_growth_stage_and_send_reminders.delay()
+    return HttpResponse("Email has been sent successfully")
+
+def sendmailattime(request):
+    # Create a schedule for the task to run at a specific time
+    schedule, created = CrontabSchedule.objects.get_or_create(hour=11, minute=50)
+
+    # Create or update a periodic task
+    task, created = PeriodicTask.objects.get_or_create(
+        crontab=schedule,
+        name="update_growth_stage_task",
+        defaults={'task': 'your_app.tasks.update_growth_stage_and_send_reminders'}
+    )
+
+    if not created:
+        task.task = 'your_app.tasks.update_growth_stage_and_send_reminders'
+        task.save()
+
+    return HttpResponse("Success")
+
+
+# price
 from django.shortcuts import render
 from .forms import CropPriceForm
 import pickle
