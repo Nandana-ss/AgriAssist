@@ -411,11 +411,11 @@ def sendmailattime(request):
     return HttpResponse("Success")
 
 
-# price
 from django.shortcuts import render
 from .forms import CropPriceForm
 import pickle
 import pandas as pd
+import os
 from django.conf import settings
 
 # Load the model and preprocessing objects
@@ -428,6 +428,7 @@ with open(model_path, 'rb') as file:
     label_encoder_crop = model_data['label_encoder_crop']
 
 def predict_price(request):
+    price = None  # Initialize price variable
     if request.method == 'POST':
         form = CropPriceForm(request.POST)
         if form.is_valid():
@@ -462,16 +463,18 @@ def predict_price(request):
                 'RainFall Annual': [rain_fall_annual]
             })
 
+            # Apply imputation and make the prediction
             new_data_imputed = imputer.transform(new_data)
             predicted_price = model.predict(new_data_imputed)[0]
-
-            return render(request, 'result.html', {'price': predicted_price})
-
+            print(f"Predicted price: {predicted_price}") 
+            price = predicted_price  # Store the predicted price
     else:
         form = CropPriceForm()
 
-    return render(request, 'price_prediction.html', {'form': form})
+    # Pass the price to the template along with the form
+    return render(request, 'price_prediction.html', {'form': form, 'price': price})
 
+# user history
 def fetch_user_history(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         records = PlantGrowthRecord.objects.filter(user=request.user).order_by('-date_uploaded')

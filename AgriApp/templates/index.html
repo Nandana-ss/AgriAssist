@@ -437,19 +437,19 @@ border: 1px solid rgb(200, 239, 81);
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#"><b>Home</b></a>
+                        <a class="nav-link" href="#" style="margin-right: 1.5rem;"><b>Home</b></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about_us"><b>About</b></a>
+                        <a class="nav-link" href="#about_us" style="margin-right: 1.5rem;"><b>About</b></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact_us"><b>contact us</b></a>
+                        <a class="nav-link" href="#contact_us" style="margin-right: 1.5rem;"><b>contact us</b></a>
                     </li>
  
                 </ul>
                 {% if user.is_authenticated %}
                 <div class="auth-buttons">
-                    <a href="{% url 'logout' %}" class="sign-in" style="text-decoration:none;">Sign Out</a>
+                    <a href="{% url 'logout' %}" class="sign-in" style="text-decoration:none;margin-right: 1.5rem;">Sign Out</a>
                 </div>
                 <!-- avatar -->
                 <div class="dropdown">
