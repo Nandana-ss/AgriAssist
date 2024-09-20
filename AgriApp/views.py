@@ -411,13 +411,12 @@ def sendmailattime(request):
     return HttpResponse("Success")
 
 
-from django.shortcuts import render
-from .forms import CropPriceForm
+# price prediction
 import pickle
 import pandas as pd
-import os
+from django.shortcuts import render
+from .forms import CropPriceForm
 from django.conf import settings
-
 # Load the model and preprocessing objects
 model_path = os.path.join(settings.BASE_DIR, 'AgriApp', 'models', 'price_prediction_model.pkl')
 with open(model_path, 'rb') as file:
@@ -490,11 +489,53 @@ def fetch_user_history(request):
         return JsonResponse({'records': records_list})
     return JsonResponse({'error': 'Invalid request'}, status=400)  
 
-# @login_required
-# def profile(request):
-#     return render(request, 'profile.html') 
 
-from django.shortcuts import render
+
+# yield prediction
+# import numpy as np
+# from django.shortcuts import render
+# import joblib
+# import os
+# import pandas as pd
+
+# # Load the model and preprocessor
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# model = joblib.load(os.path.join(BASE_DIR, './AgriApp/models/decision_tree_regressor.pkl'))
+# preprocessor = joblib.load(os.path.join(BASE_DIR, './AgriApp/models/preprocessor.pkl'))
+
+# def predict_yield(request):
+#     predicted_yield = None  # Initialize variable for predicted yield
+
+#     if request.method == 'POST':
+#         data = request.POST
+#         Year = int(data.get('Year'))
+#         average_rain_fall_mm_per_year = float(data.get('average_rain_fall_mm_per_year'))
+#         pesticides_tonnes = float(data.get('pesticides_tonnes'))
+#         avg_temp = float(data.get('avg_temp'))
+#         Area = data.get('Area')  # Get the selected country from the dropdown
+#         Item = data.get('Item')
+
+#         # Prepare features for prediction
+#         features = np.array([[Year, average_rain_fall_mm_per_year, pesticides_tonnes, avg_temp, Area, Item]], dtype=object)
+
+#         try:
+#             # Transform features using the preprocessor (handles categorical variables)
+#             transform_features = preprocessor.transform(features)
+
+#             # Predict yield using the trained model
+#             predicted_yield = model.predict(transform_features).reshape(-1, 1)[0][0]
+#         except ValueError as e:
+#             # Handle the case where an unknown category is found
+#             predicted_yield = f"Error: {str(e)}"
+
+#     # Load countries from the dataset and pass them to the template
+#     dataset = pd.read_csv(os.path.join(BASE_DIR, './AgriApp/data/yield_df.csv'))
+#     countries = dataset['Area'].unique().tolist()  # Extract unique countries
+
+#     return render(request, 'form.html', {'predicted_yield': predicted_yield, 'countries': countries})
+
+
+# from django.shortcuts import render
 
 def profile(request):
     return render(request, 'profile.html')

@@ -19,5 +19,5 @@ urlpatterns = [
     path('predict_plant_growth/', views.predict_plant_growth, name='predict_plant_growth'),
     path('fetch_user_history/', views.fetch_user_history, name='fetch_user_history'),
     path('profile/', views.profile, name='profile'),
-    # path('', views.predict_yield, name='predict_yield'),
+    # path('yield/', views.predict_yield, name='predict_yield'),
 ]
