@@ -8,113 +8,162 @@
     <style>
         /* style.css */
 
+/* Updated styles */
+
 body {
-    padding-top: 70px; /* Ensure content is not hidden behind the fixed navbar */
-}
+            padding-top: 70px;
+            background-color: #f4f4f9;
+        }
 
-.navbar {
-    background-color: #81B622; /* Light background color */
-    border-bottom: 1px solid #e7e7e7; /* Subtle border at the bottom */
-}
+        .navbar {
+            background-color: #81B622;
+            border-bottom: 1px solid #e7e7e7;
+        }
 
-.navbar-brand {
-    display: flex; 
-    align-items: center;
-}
+        .navbar-brand {
+            display: flex; 
+            align-items: center;
+        }
 
-.navbar-brand img {
-    margin-right: 10px; /* Space between logo and text */
-}
+        .navbar-brand img {
+            margin-right: 10px;
+        }
 
-.nav-link {
-    font-weight: bold;
-    color: #333;
-}
+        .nav-link {
+            font-weight: bold;
+            color: #333;
+        }
 
-.nav-link:hover {
-    color: #0056b3; /* Darker color on hover */
-}
+        .nav-link:hover {
+            color: #0056b3;
+        }
 
-.auth-buttons {
-    margin-left: 20px;
-}
+        .auth-buttons {
+            margin-left: 20px;
+        }
 
-.auth-buttons .sign-in,
-.auth-buttons .sign-up {
-    margin-right: 10px;
-    color: white;
-    font-style:bold ;
-}
+        .auth-buttons .sign-in,
+        .auth-buttons .sign-up {
+            margin-right: 10px;
+            color: white;
+        }
 
-.auth-buttons .sign-in:hover,
-.auth-buttons .sign-up:hover {
-    text-decoration: underline;
-}
+        .auth-buttons .sign-in:hover,
+        .auth-buttons .sign-up:hover {
+            text-decoration: underline;
+        }
 
-.dropdown .dropbtn {
-    background: none;
-    border: none;
-    color: #333;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
+        .dropdown .dropbtn {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
 
-.dropdown .dropbtn img.avatar {
-    margin-right: 10px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-}
+        .dropdown .dropbtn img.avatar {
+            margin-right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
 
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
 
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
 
-.dropdown:hover .dropdown-content {
-    display: block;
-}
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
-.navbar-toggler {
-    border: none;
-}
+        .navbar-toggler {
+            border: none;
+        }
 
-.navbar-toggler:focus {
-    outline: none;
-}
+        .navbar-toggler:focus {
+            outline: none;
+        }
 
-@media (max-width: 768px) {
-    .navbar-nav {
-        text-align: center;
-    }
+        /* Content section */
+        .content-box {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
 
-    .navbar-nav .nav-item {
-        margin-bottom: 10px;
-    }
+        .content-box h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
 
-    .auth-buttons {
-        margin-left: 0;
-        margin-top: 10px;
-    }
-}
+        .content-box p {
+            font-size: 16px;
+            color: #555;
+        }
 
+        .features {
+            padding: 50px 0;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-item img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+        }
+
+        .feature-item h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nav {
+                text-align: center;
+            }
+
+            .navbar-nav .nav-item {
+                margin-bottom: 10px;
+            }
+
+            .auth-buttons {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .feature-item {
+                margin-bottom: 30px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -178,6 +227,45 @@ body {
                 <p><strong>Fertilizer Recommendation:</strong> {{ fertilizer }}</p>
             </div>
         {% endif %}
+    
+    <!-- New Section: Features -->
+    <section class="features">
+        <div class="row text-center">
+            <div class="col-md-4 feature-item">
+                <img src="{% static 'images/icon 1.jpg' %}" alt="Feature 1">
+                <h4>Accurate Detection</h4>
+                <p>Our system uses advanced algorithms to detect plant diseases with high precision, 
+                    analyzing leaf patterns, textures, and symptoms. By leveraging state-of-the-art 
+                    machine learning models, we ensure that farmers receive timely and reliable 
+                    diagnoses to help protect their crops. This reduces the need for trial-and-error 
+                    methods, increasing efficiency and saving costs."</p>
+            </div>
+            <div class="col-md-4 feature-item">
+                <img src="{% static 'images/icon2.jpg' %}" alt="Feature 2">
+                <h4>Custom Recommendations</h4>
+                <p>Based on the specific plant disease identified, our system provides tailored 
+                    pesticide and fertilizer recommendations that are optimized for your crop's health.
+                     These suggestions consider factors such as the type of disease, plant species, 
+                     and environmental conditions, ensuring the right treatment is applied. 
+                     "</p>
+            </div>
+            <div class="col-md-4 feature-item">
+                <img src="{% static 'images/icon3.jpg' %}" alt="Feature 3">
+                <h4>Easy to Use</h4>
+                <p>With a simple and intuitive interface, all you need to do is upload a clear
+                     image of the affected plant, and our system will provide instant results.
+                      The process is fast, user-friendly, and accessible to everyone — from experienced
+                       farmers to beginners. In just a few clicks, you can identify diseases and receive 
+                       actionable recommendations without any technical expertise."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Section: How it Works -->
+    <div class="content-box">
+        <h2>How It Works</h2>
+        <p>Simply upload a clear image of the affected plant area. Our system will process the image and identify any potential diseases. Based on the diagnosis, we provide you with appropriate pesticide and fertilizer recommendations.</p>
     </div>
+    <div>
 </body>
 </html>
