@@ -171,10 +171,7 @@
                 {{ form.production.label_tag }}
                 {{ form.production }}
             </div>
-            <div class="form-group">
-                {{ form.yield_.label_tag }}
-                {{ form.yield_ }}
-            </div>
+            
             <div class="form-group">
                 {{ form.temperature.label_tag }}
                 {{ form.temperature }}
@@ -183,12 +180,12 @@
                 {{ form.rain_fall_annual.label_tag }}
                 {{ form.rain_fall_annual }}
             </div>
-            <button type="submit">Predict Price</button>
+            <button type="submit">Predict</button>
         </form>
     
         <div class="mt-4">
             {% if price is not None %}
-            <h2 class="prediction">Predicted Price: {{ price }}</h2>
+            <h2 class="prediction">Predicted Yield: {{ price }}</h2>
             {% endif %}
         </div>
     </div>

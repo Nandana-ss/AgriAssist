@@ -15,7 +15,7 @@ data = pd.read_csv("./AgriApp/data/crop_data.csv")
 data.columns = data.columns.str.strip()
 
 # Convert columns to numeric where necessary
-numeric_columns = ['CostCultivation', 'CostCultivation2', 'Production', 'Yield', 'Temperature', 'RainFall Annual', 'Price']
+numeric_columns = ['CostCultivation', 'CostCultivation2', 'Production', 'Temperature', 'RainFall Annual', 'Price']
 for col in numeric_columns:
     data[col] = pd.to_numeric(data[col], errors='coerce')
 
@@ -26,7 +26,7 @@ data['State'] = label_encoder_state.fit_transform(data['State'].str.strip())
 data['Crop'] = label_encoder_crop.fit_transform(data['Crop'].str.strip())
 
 # Define features and target
-features = ['State', 'Crop', 'CostCultivation', 'CostCultivation2', 'Production', 'Yield', 'Temperature', 'RainFall Annual']
+features = ['State', 'Crop', 'CostCultivation', 'CostCultivation2', 'Production', 'Temperature', 'RainFall Annual']
 target = 'Price'
 
 # Handle missing values

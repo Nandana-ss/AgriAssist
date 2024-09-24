@@ -248,7 +248,7 @@
         <table id="history-table" style="width: 100%;">
             <thead>
                 <tr>
-                    <th>Image</th>
+                 
                     <th>Growth Stage</th>
                     <th>Watering Instructions</th>
                     <th>Fertilizer Instructions</th>
@@ -302,7 +302,7 @@ document.getElementById('view-history-btn').addEventListener('click', function()
             data.records.forEach(record => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td><img src="${record.image}" alt="Plant Image"></td>
+                    
                     <td>${record.growth_stage}</td>
                     <td>${record.watering_instructions}</td>
                     <td>${record.fertilizer_instructions}</td>

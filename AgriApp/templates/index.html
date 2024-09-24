@@ -537,7 +537,7 @@ border: 1px solid rgb(200, 239, 81);
 <div class="container" id="crop_recommendation">
     <a href="{% url 'disease_recognition' %}" class="boxfirst" style="color:White;text-align:center;text-decoration:none"><h3 class="div-box">Crop Disease Detection</h3></a>
     <a href="{% url 'crop_recommendation' %}" class="boxgreen" style="color:white;text-align:center;text-decoration:none"><h3 class="div-box">Crop Recommendation System</h3></a>
-    <a href="{% url 'predict_price' %}" class="boxblue" style="color:white;text-align:center;text-decoration:none"><h3 class="div-box">Crop Price Prediction</h3></a>
+    <a href="{% url 'predict_price' %}" class="boxblue" style="color:white;text-align:center;text-decoration:none"><h3 class="div-box">Crop Yield Prediction</h3></a>
     <a href="{% url 'progress' %}" class="boxyellow" style="color:white;text-align:center;text-decoration:none"><h3 class="div-box">Plant Progress Tracker</h3></a>
 </div>
     <!-- services end  -->
@@ -592,7 +592,7 @@ border: 1px solid rgb(200, 239, 81);
                     <h2 class="about-subtitle">Our Mission</h2>
                     <p class="about-text">At Agri Assist, we aim to revolutionize the 
                         agricultural industry through innovative AI technologies.
-                         We provide tools for price forecasting, weather forecasting,
+                         We provide tools yield forecasting, Crop recommendations,
                           and image recognition, helping our clients make informed 
                           decisions and achieve better outcomes.</p>
                 </div>
@@ -612,9 +612,7 @@ border: 1px solid rgb(200, 239, 81);
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-10 col-lg-8">
-          <!-- <h3 class="fs-5 mb-2 text-secondary text-uppercase">About</h3> -->
-          <!-- <h2 class="display-5 mb-4">At our core, we prioritize pushing boundaries, embracing the unknown, and fostering a culture of continuous learning.</h2>
-          <button type="button" class="btn btn-lg btn-primary mb-3 mb-md-4 mb-xl-5">Connect Now</button> -->
+          
         </div>
       </div>
     </div>
@@ -685,12 +683,11 @@ border: 1px solid rgb(200, 239, 81);
             </div>
             <div class="col-md-7">
               <div class="card-body p-0">
-                <h2 class="card-title h4 mb-3">Crop Price Prediction</h2>
-                <p class="card-text lead">Crop price prediction involves using statistical
-                     models and machine learning techniques to forecast future
-                      prices of agricultural products based on historical data,
+                <h2 class="card-title h4 mb-3">Crop Yield Prediction</h2>
+                <p class="card-text lead">Crop yield prediction involves using statistical
+                     models and machine learning techniques to forecast yield of agricultural products based on historical data,
                        market trends, weather conditions, and other relevant factors.
-                        By providing accurate price forecasts, farmers and stakeholders
+                        By providing accurate yield predictions, farmers and stakeholders
                          can make informed decisions about planting, harvesting, 
                          and selling crops, ultimately enhancing profitability and market stability. This
                      predictive insight supports better planning and resource .
@@ -708,12 +705,12 @@ border: 1px solid rgb(200, 239, 81);
             </div>
             <div class="col-md-7">
               <div class="card-body p-0">
-                <h2 class="card-title h4 mb-3">Plant Progress Chart</h2>
-                <p class="card-text lead">A plant progress chart visually tracks the growth and development 
-                    stages of crops over time. This chart can include key indicators such as germination rates,
+                <h2 class="card-title h4 mb-3">Plant Progress tracker</h2>
+                <p class="card-text lead">A plant progress tracker tracks the growth and development 
+                    stages of crops over time. This tracker can include key indicators such as germination,
                      leaf growth, flowering, and harvest readiness. By monitoring these metrics, farmers can assess
                       plant health, identify potential issues early, and make informed decisions about irrigation,
-                       fertilization, and pest management. Utilizing such charts aids in optimizing crop yields and 
+                       fertilization, and pest management. Utilizing such trackers aids in optimizing crop yields and 
                        ensuring successful agricultural outcomes..</p>
               </div>
             </div>
@@ -733,16 +730,16 @@ border: 1px solid rgb(200, 239, 81);
             <div class="footer-container">
                 <div class="footer-section">
                     <h3>About Agri Assist</h3>
-                    <p>Your go-to platform for all agriculture-related needs. We provide weather forecasting, image recognition, price forecasting, and more to help farmers, researchers, and agricultural businesses thrive.</p>
+                    <p>Your go-to platform for all agriculture-related needs. We provide crop recommendation, image recognition, yield prediction, and more to help farmers, researchers, and agricultural businesses thrive.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#">Home</a></li>
                         <li><a href="#crop_recommendation">Crop Recommendation</a></li>
-                        <li><a href="#">Image Recognition</a></li>
-                        <li><a href="#">Price Forecasting</a></li>
-                        <li><a href="#">Plant progress tracker</a></li>
+                        <li><a href="#crop_recommendation">Image Recognition</a></li>
+                        <li><a href="#crop_recommendation">Price Forecasting</a></li>
+                        <li><a href="#crop_recommendation">Plant progress tracker</a></li>
                     </ul>
                 </div>
                 <div class="footer-section" id="contact_us">
@@ -751,16 +748,7 @@ border: 1px solid rgb(200, 239, 81);
                         <li>Email: agriassist35@gmail.com</li>
                     </ul>
                 </div>
-                <!-- <div class="footer-section">
-                    <h3>Follow Us</h3>
-                    <div class="social-icons">
-                        <a href="#"><img src="images/facebook-icon.png" alt="Facebook"></a>
-                        <a href="#"><img src="images/twitter-icon.png" alt="Twitter"></a>
-                        <a href="#"><img src="images/instagram-icon.png" alt="Instagram"></a>
-                        <a href="#"><img src="images/linkedin-icon.png" alt="LinkedIn"></a>
-                    </div>
-                </div>
-            </div> -->
+                
             <div class="footer-bottom">
                 <p>&copy; 2024 Agri Assist. All rights reserved.</p>
             </div>

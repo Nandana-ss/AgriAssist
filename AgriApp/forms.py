@@ -61,6 +61,6 @@ class CropPriceForm(forms.Form):
     cost_cultivation = forms.FloatField(label='Cost of Cultivation')
     cost_cultivation2 = forms.FloatField(label='Cost of Cultivation 2')
     production = forms.FloatField(label='Production')
-    yield_ = forms.FloatField(label='Yield')
+    # yield_ = forms.FloatField(label='Yield')
     temperature = forms.FloatField(label='Temperature')
     rain_fall_annual = forms.FloatField(label='Rain Fall Annual')
